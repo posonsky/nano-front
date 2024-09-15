@@ -11,6 +11,7 @@ import Login from "./Login.js";
 import InfoTooltip from "./InfoTooltip.js";
 
 import Stub from "./Stub.js";
+import ProfileWrapper from './ProfileWrapper.js'
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/api.js";
@@ -144,7 +145,7 @@ function Profile() {
           <ProtectedRoute
             exact
             path="/"
-            component={Stub}
+            component={ ProfileWrapper }
             onEditProfile={handleEditProfileClick}
             onEditAvatar={handleEditAvatarClick}
             loggedIn={isLoggedIn}
