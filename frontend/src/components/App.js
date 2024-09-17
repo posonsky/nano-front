@@ -1,22 +1,26 @@
-import React from "react";
-import { Route, useHistory, Switch } from "react-router-dom";
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
-import ImagePopup from "./ImagePopup";
-import api from "../utils/api";
+import React, { lazy, Suspense } from "react";
+
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
-import Register from "./Register";
-import Login from "./Login";
-import InfoTooltip from "./InfoTooltip";
-import ProtectedRoute from "./ProtectedRoute";
-import * as auth from "../utils/auth.js";
+
+// import { Route, useHistory, Switch } from "react-router-dom";
+// import Header from "./Header";
+// import Main from "./Main";
+import Footer from "./Footer";
+// import PopupWithForm from "./PopupWithForm";
+// import ProtectedRoute from "./ProtectedRoute";
+
+
+const ProfileStub = lazy(
+  () => import('profile/Stub').catch(() => {
+    return {
+      default: () => <div className='error'>Component Stub is not available!</div>
+    };
+  })
+);
 
 function App() {
+
+  /*
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
@@ -24,20 +28,24 @@ function App() {
     React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [cards, setCards] = React.useState([]);
+  */
 
   // В корневом компоненте App создана стейт-переменная currentUser. Она используется в качестве значения для провайдера контекста.
-  const [currentUser, setCurrentUser] = React.useState({});
+  // const [currentUser, setCurrentUser] = React.useState({});
 
+  /*
   const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false);
   const [tooltipStatus, setTooltipStatus] = React.useState("");
+  */
 
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   //В компоненты добавлены новые стейт-переменные: email — в компонент App
-  const [email, setEmail] = React.useState("");
+  // const [email, setEmail] = React.useState("");
 
-  const history = useHistory();
+  // const history = useHistory();
 
   // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
+  /*
   React.useEffect(() => {
     api
       .getAppInfo()
@@ -47,8 +55,9 @@ function App() {
       })
       .catch((err) => console.log(err));
   }, []);
-
+ */
   // при монтировании App описан эффект, проверяющий наличие токена и его валидности
+  /*
   React.useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -65,7 +74,9 @@ function App() {
         });
     }
   }, [history]);
+  */
 
+  /*
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
@@ -176,14 +187,16 @@ function App() {
     // После успешного вызова обработчика onSignOut происходит редирект на /signin
     history.push("/signin");
   }
+  */
 
+  /*
   return (
     // В компонент App внедрён контекст через CurrentUserContext.Provider
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
         <Header email={email} onSignOut={onSignOut} />
         <Switch>
-          {/*Роут / защищён HOC-компонентом ProtectedRoute*/}
+
           <ProtectedRoute
             exact
             path="/"
@@ -197,7 +210,7 @@ function App() {
             onCardDelete={handleCardDelete}
             loggedIn={isLoggedIn}
           />
-          {/*Роут /signup и /signin не является защищёнными, т.е оборачивать их в HOC ProtectedRoute не нужно.*/}
+
           <Route path="/signup">
             <Register onRegister={onRegister} />
           </Route>
@@ -229,6 +242,25 @@ function App() {
           status={tooltipStatus}
         />
       </div>
+    </CurrentUserContext.Provider>
+  );
+*/
+
+  let currentUser = 'Pupkin';
+
+  // <CurrentUserContext.Provider value={currentUser}>
+  // </CurrentUserContext.Provider>
+  return (
+  // В компонент App внедрён контекст через CurrentUserContext.Provider
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page__content">
+
+        <Suspense>
+          <ProfileStub />
+        </Suspense>
+
+      </div>
+      <Footer />
     </CurrentUserContext.Provider>
   );
 }
