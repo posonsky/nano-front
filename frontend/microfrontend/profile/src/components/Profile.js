@@ -1,21 +1,19 @@
 import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
-import ProfileHeader from "./ProfileHeader.js";
-import ProtectedRoute from "./ProtectedRoute";
-import PopupWithForm from "./PopupWithForm.js";
-import EditProfilePopup from "./EditProfilePopup.js";
-import EditAvatarPopup from "./EditAvatarPopup.js";
-import Register from "./Register.js";
-import Login from "./Login.js";
-import InfoTooltip from "./InfoTooltip.js";
-
-import Stub from "./Stub.js";
-import ProfileWrapper from './ProfileWrapper.js'
-
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/api.js";
 import * as auth from "../utils/auth.js";
+
+import EditAvatarPopup from "./EditAvatarPopup.js";
+import EditProfilePopup from "./EditProfilePopup.js";
+import Login from "./Login.js";
+import InfoTooltip from "./InfoTooltip.js";
+import Register from "./Register.js";
+import PopupWithForm from "./PopupWithForm.js";
+import ProfileHeader from "./ProfileHeader.js";
+import ProfileWrapper from './ProfileWrapper.js'
+import ProtectedRoute from "./ProtectedRoute";
 
 
 function Profile() {
