@@ -8,17 +8,17 @@ class Api {
     // Запросы в примере работы выполняются к старому Api, в новом URL изменены.
   }
 
-  getUserInfo() {
-    return fetch(`${this._address}/${this._groupId}/users/me`, {
+  async getUserInfo() {
+    const res = await fetch(`${this._address}/${this._groupId}/users/me`, {
       headers: {
         authorization: this._token,
       },
-    })
-      .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
+    });
+    return await (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
   }
 
-  setUserInfo({ name, about }) {
-    return fetch(`${this._address}/${this._groupId}/users/me`, {
+  async setUserInfo({ name, about }) {
+    const res = await fetch(`${this._address}/${this._groupId}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
@@ -28,12 +28,12 @@ class Api {
         name,
         about,
       }),
-    })
-      .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
+    });
+    return await (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
   }
 
-  setUserAvatar({ avatar }) {
-    return fetch(`${this._address}/${this._groupId}/users/me/avatar`, {
+  async setUserAvatar({ avatar }) {
+    const res = await fetch(`${this._address}/${this._groupId}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
@@ -42,8 +42,8 @@ class Api {
       body: JSON.stringify({
         avatar,
       }),
-    })
-      .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
+    });
+    return await (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
   }
 };
 

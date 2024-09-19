@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Profile from "./components/Profile";
 import { BrowserRouter } from "react-router-dom";
+import Profile from "./components/Profile";
 
 import "./index.css";
 

@@ -1,10 +1,13 @@
+import { ProfileContext } from 'shared-profile-context';
 import React from 'react';
-import PopupWithForm from './PopupWithForm';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import api from "../utils/api.js";
 
-function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
+import PopupWithForm from './PopupWithForm';
+
+function EditProfilePopup({ isOpen, onClose }) {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const { currentUser, setCurrentUser } = React.useContext(ProfileContext);
 
   function handleNameChange(e) {
     setName(e.target.value);
@@ -14,8 +17,6 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
     setDescription(e.target.value);
   }
 
-  const currentUser = React.useContext(CurrentUserContext);
-
   React.useEffect(() => {
     if (currentUser) {
       setName(currentUser.name);
@@ -23,10 +24,19 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
     }
   }, [currentUser]);
 
+  function handleUpdateUser(userUpdate) {
+    api
+      .setUserInfo(userUpdate)
+      .then((newUserData) => {
+        setCurrentUser(newUserData);
+        onClose();
+      })
+      .catch((err) => console.log(err));
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-
-    onUpdateUser({
+    handleUpdateUser({
       name,
       about: description,
     });
@@ -34,7 +44,11 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
 
   return (
     <PopupWithForm
-      isOpen={isOpen} onSubmit={handleSubmit} onClose={onClose} title="Редактировать профиль" name="edit"
+      isOpen={isOpen}
+      onSubmit={handleSubmit}
+      onClose={onClose}
+      title="Редактировать профиль"
+      name="edit"
     >
       <label className="popup__label">
         <input type="text" name="userName" id="owner-name"
