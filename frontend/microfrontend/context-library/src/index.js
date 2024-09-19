@@ -1,1 +1,1 @@
-import('./ProfileContext.js');
+export * from './ProfileContext';
