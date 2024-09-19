@@ -16,10 +16,17 @@ module.exports = {
 
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+    alias: {
+      "shared-profile-context": path.resolve(
+        __dirname,
+        "./microfrontend/context-library",
+      ),
+    },
   },
 
   devServer: {
     port: 3000,
+    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, "public"),
     },
@@ -65,7 +72,7 @@ module.exports = {
       name: "shell",
       filename: "remoteEntry.js",
       remotes: {
-        'profile': 'profile@http://localhost:3001/remoteEntry.js',
+        profile: "profile@http://localhost:3001/remoteEntry.js",
       },
       exposes: {},
       shared: {
@@ -77,6 +84,12 @@ module.exports = {
         "react-dom": {
           singleton: true,
           requiredVersion: deps["react-dom"],
+        },
+        "shared-profile-context": {
+          import: "shared-profile-context",
+          singleton: true,
+          requiredVersion:
+            require("./microfrontend/context-library/package.json").version,
         },
       },
     }),
