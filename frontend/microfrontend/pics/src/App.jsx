@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import Pics from './components/Pics'
 
 import "./index.css";
 
@@ -7,8 +8,9 @@ const App = () => (
   <div className="container">
     <div>Name: pics</div>
     <div>Framework: react</div>
-    <div>Language: JavaScript</div>
-    <div>CSS: Empty CSS</div>
+
+    <Pics></Pics>
+
   </div>
 );
 const rootElement = document.getElementById("app")

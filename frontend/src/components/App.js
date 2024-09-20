@@ -2,7 +2,7 @@ import { ProfileContext } from "shared-profile-context";
 import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Main from "./Main";
+import Main, {Loading} from "./Main";
 import Footer from "./Footer";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -48,18 +48,20 @@ function App() {
       }}
     >
       <div className="page__content">
-        <Suspense>
+        <Suspense fallback={<Loading />}>
           <ProfileHeader />
         </Suspense>
         <Switch>
           <ProtectedRoute exact path="/" component={Main} />
           <Route path="/signup">
-            <Suspense>
+            <Suspense fallback={<Loading />}>
               <Register />
             </Suspense>
           </Route>
           <Route path="/signin">
-            <Login />
+            <Suspense fallback={<Loading />}>
+              <Login />
+            </Suspense>
           </Route>
         </Switch>
       </div>

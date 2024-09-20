@@ -10,43 +10,48 @@ const ProfileBlock = lazy(() =>
   }),
 );
 
-const PicsStub = lazy(() =>
-  import("pics/PicsStub").catch(() => {
+const AddPlaceButton = lazy(() =>
+  import("pics/AddPlaceButton").catch(() => {
     return {
       default: () => (
-        <div className="error">Component PicsStub is not available!</div>
+        <div className="error">Component AddPlaceButton is not available!</div>
       ),
     };
   }),
 );
 
+const PicsBlock = lazy(() =>
+  import("pics/PicsBlock").catch(() => {
+    return {
+      default: () => (
+        <div className="error">Component PicsBlock is not available!</div>
+      ),
+    };
+  }),
+);
+
+export function Loading() {
+  return <h2>🌀 Loading...</h2>;
+}
 
 function Main() {
   return (
     <main className="content">
-      <section className="profile page__section">
-        <Suspense>
-          <ProfileBlock></ProfileBlock>
-        </Suspense>
-        <button className="profile__add-button" type="button"></button>
-      </section>
+        <section className="profile page__section">
+          <Suspense fallback={<Loading />}>
+            <ProfileBlock></ProfileBlock>
+          </Suspense>
 
-      <section className="places page__section">
-        <ul className="places__list">
-        <PicsStub></PicsStub>
-        {/*
-          {cards.map((card) => (
-            <Card
-              key={card._id}
-              card={card}
-              onCardClick={onCardClick}
-              onCardLike={onCardLike}
-              onCardDelete={onCardDelete}
-            />
-          ))}
-        */}
-        </ul>
-      </section>
+          <Suspense fallback={<Loading />}>
+            <AddPlaceButton buttonClassName={'profile__add-button'} />
+          </Suspense>
+        </section>
+
+        <section className="places page__section">
+          <Suspense fallback={<Loading />}>
+            <PicsBlock></PicsBlock>
+          </Suspense>
+        </section>
     </main>
   );
 }
