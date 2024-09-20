@@ -73,6 +73,7 @@ module.exports = {
       filename: "remoteEntry.js",
       remotes: {
         profile: "profile@http://localhost:3001/remoteEntry.js",
+        pics: "pics@http://localhost:3002/remoteEntry.js",
       },
       exposes: {},
       shared: {

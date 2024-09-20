@@ -14,6 +14,9 @@ module.exports = (_, argv) => ({
 
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+    alias: {
+      "shared-profile-context": path.resolve(__dirname, "../context-library"),
+    },
   },
 
   devServer: {
@@ -51,6 +54,14 @@ module.exports = (_, argv) => ({
         use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+        type: "asset/resource",
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+      },
+      {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
@@ -65,7 +76,9 @@ module.exports = (_, argv) => ({
       name: "pics",
       filename: "remoteEntry.js",
       remotes: {},
-      exposes: {},
+      exposes: {
+        "./PicsStub": "./src/components/PicsStub.js",
+      },
       shared: {
         ...deps,
         react: {
@@ -75,6 +88,11 @@ module.exports = (_, argv) => ({
         "react-dom": {
           singleton: true,
           requiredVersion: deps["react-dom"],
+        },
+        "shared-profile-context": {
+          import: "shared-profile-context",
+          singleton: true,
+          requiredVersion: require("../context-library/package.json").version,
         },
       },
     }),

@@ -10,6 +10,17 @@ const ProfileBlock = lazy(() =>
   }),
 );
 
+const PicsStub = lazy(() =>
+  import("pics/PicsStub").catch(() => {
+    return {
+      default: () => (
+        <div className="error">Component PicsStub is not available!</div>
+      ),
+    };
+  }),
+);
+
+
 function Main() {
   return (
     <main className="content">
@@ -22,6 +33,7 @@ function Main() {
 
       <section className="places page__section">
         <ul className="places__list">
+        <PicsStub></PicsStub>
         {/*
           {cards.map((card) => (
             <Card
