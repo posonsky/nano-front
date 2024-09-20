@@ -1,3 +1,4 @@
+import { ProfileContext, PicsContext } from "shared-profile-context";
 import React, { startTransition } from "react";
 import api from "../utils/api.js";
 
@@ -7,11 +8,14 @@ import ImagePopup from './ImagePopup.js';
 import PopupWithForm from "./PopupWithForm.js";
 
 function PicsBlock() {
-  // const { currentUser, setCurrentUser } = React.useContext(ProfileContext);
-  const [currentUser, setCurrentUser] = React.useState({});
-  const [cards, setCards] = React.useState([]);
+  const { currentUser, setCurrentUser } = React.useContext(ProfileContext);
+  const {
+    cards,
+    setCards,
+    isAddPlacePopupOpen,
+    setIsAddPlacePopupOpen
+   } = React.useContext(PicsContext);
   const [selectedCard, setSelectedCard] = React.useState(null);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
 
   React.useEffect(() => {
     api
@@ -19,25 +23,18 @@ function PicsBlock() {
       .then((cardData) => {
         // setCurrentUser(userData);
         startTransition(() => {
-            setCards(cardData);
+          setCards(cardData);
         });
       })
       .catch((err) => console.log(err));
   }, [setCards]);
-
-  function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(true);
-  }
 
   function handleCardClick(card) {
     setSelectedCard(card);
   }
 
   function closeAllPopups() {
-    // setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    // setIsEditAvatarPopupOpen(false);
-    // setIsInfoToolTipOpen(false);
     setSelectedCard(null);
   }
 

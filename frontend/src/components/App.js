@@ -1,4 +1,4 @@
-import { ProfileContext } from "shared-profile-context";
+import { ProfileContext, PicsContext } from "shared-profile-context";
 import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 
@@ -37,6 +37,8 @@ const Register = lazy(() =>
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [userEmail, setUserEmail] = React.useState("");
+  const [cards, setCards] = React.useState([]);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
 
   return (
     <ProfileContext.Provider
@@ -47,25 +49,34 @@ function App() {
         setUserEmail,
       }}
     >
-      <div className="page__content">
-        <Suspense fallback={<Loading />}>
-          <ProfileHeader />
-        </Suspense>
-        <Switch>
-          <ProtectedRoute exact path="/" component={Main} />
-          <Route path="/signup">
-            <Suspense fallback={<Loading />}>
-              <Register />
-            </Suspense>
-          </Route>
-          <Route path="/signin">
-            <Suspense fallback={<Loading />}>
-              <Login />
-            </Suspense>
-          </Route>
-        </Switch>
-      </div>
-      <Footer />
+      <PicsContext.Provider
+        value={{
+          cards,
+          setCards,
+          isAddPlacePopupOpen,
+          setIsAddPlacePopupOpen,
+        }}
+      >
+        <div className="page__content">
+          <Suspense fallback={<Loading />}>
+            <ProfileHeader />
+          </Suspense>
+          <Switch>
+            <ProtectedRoute exact path="/" component={Main} />
+            <Route path="/signup">
+              <Suspense fallback={<Loading />}>
+                <Register />
+              </Suspense>
+            </Route>
+            <Route path="/signin">
+              <Suspense fallback={<Loading />}>
+                <Login />
+              </Suspense>
+            </Route>
+          </Switch>
+        </div>
+        <Footer />
+      </PicsContext.Provider>
     </ProfileContext.Provider>
   );
 }

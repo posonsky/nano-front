@@ -16,7 +16,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     onCardDelete(card);
   }
 
-  const currentUser = React.useContext(ProfileContext);
+  const {currentUser} = React.useContext(ProfileContext);
 
   const isLiked = card.likes.some(i => i._id === currentUser._id);
   const cardLikeButtonClassName = (
