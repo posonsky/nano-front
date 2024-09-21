@@ -2,7 +2,7 @@ import { ProfileContext, PicsContext } from "shared-profile-context";
 import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Main, {Loading} from "./Main";
+import Main, { Loading } from "./Main";
 import Footer from "./Footer";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -74,8 +74,8 @@ function App() {
               </Suspense>
             </Route>
           </Switch>
+          <Footer />
         </div>
-        <Footer />
       </PicsContext.Provider>
     </ProfileContext.Provider>
   );
