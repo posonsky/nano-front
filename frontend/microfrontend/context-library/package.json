@@ -1,0 +1,6 @@
+{
+  "name": "context-library",
+  "version": "0.0.1",
+  "description": "Shared context library for microfrontends",
+  "main": "./src/index.js"
+}

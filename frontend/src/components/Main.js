@@ -1,36 +1,57 @@
-import React from 'react';
-import Card from './Card';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import React, { lazy, Suspense } from "react";
 
-function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete }) {
-  const currentUser = React.useContext(CurrentUserContext);
+const ProfileBlock = lazy(() =>
+  import("profile/ProfileBlock").catch(() => {
+    return {
+      default: () => (
+        <div className="error">Component ProfileBlock is not available!</div>
+      ),
+    };
+  }),
+);
 
-  const imageStyle = { backgroundImage: `url(${currentUser.avatar})` };
+const AddPlaceButton = lazy(() =>
+  import("pics/AddPlaceButton").catch(() => {
+    return {
+      default: () => (
+        <div className="error">Component AddPlaceButton is not available!</div>
+      ),
+    };
+  }),
+);
 
+const PicsBlock = lazy(() =>
+  import("pics/PicsBlock").catch(() => {
+    return {
+      default: () => (
+        <div className="error">Component PicsBlock is not available!</div>
+      ),
+    };
+  }),
+);
+
+export function Loading() {
+  return <h2>🌀 Loading...</h2>;
+}
+
+function Main() {
   return (
     <main className="content">
-      <section className="profile page__section">
-        <div className="profile__image" onClick={onEditAvatar} style={imageStyle}></div>
-        <div className="profile__info">
-          <h1 className="profile__title">{currentUser.name}</h1>
-          <button className="profile__edit-button" type="button" onClick={onEditProfile}></button>
-          <p className="profile__description">{currentUser.about}</p>
-        </div>
-        <button className="profile__add-button" type="button" onClick={onAddPlace}></button>
-      </section>
-      <section className="places page__section">
-        <ul className="places__list">
-          {cards.map((card) => (
-            <Card
-              key={card._id}
-              card={card}
-              onCardClick={onCardClick}
-              onCardLike={onCardLike}
-              onCardDelete={onCardDelete}
-            />
-          ))}
-        </ul>
-      </section>
+        <section className="profile page__section">
+          <Suspense fallback={<Loading />}>
+            <ProfileBlock></ProfileBlock>
+          </Suspense>
+
+          <Suspense fallback={<Loading />}>
+            <AddPlaceButton buttonClassName={'profile__add-button'} />
+          </Suspense>
+        </section>
+
+        <section className="places page__section">
+          <Suspense fallback={<Loading />}>
+            <PicsBlock></PicsBlock>
+          </Suspense>
+        </section>
     </main>
   );
 }
